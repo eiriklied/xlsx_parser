@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe Xlsx do
   context "instantiating" do
     it "should be possible to instantiate it" do
-      doc = Xlsx.new("data/regular_document.xlsx")
+      doc = Xlsx.new("data/regular_workbook.xlsx")
       doc.should_not be_nil
     end
   
