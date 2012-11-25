@@ -2,7 +2,7 @@
 require 'nokogiri'
 
 
-class XlsxSaxParser < Nokogiri::XML::SAX::Document
+class SheetSaxParser < Nokogiri::XML::SAX::Document
   attr_reader :doc
   
   def initialize(shared_strings)
@@ -12,14 +12,14 @@ class XlsxSaxParser < Nokogiri::XML::SAX::Document
     @doc = []
   end
 
-  def start_element name, attrs = []
-    start_row    name, attrs
-    start_column name, attrs
+  def start_element(name, attrs = [])
+    start_row(name, attrs)
+    start_column(name, attrs)
   end
 
-  def end_element name
-    end_row name
-    end_column name
+  def end_element(name)
+    end_row(name)
+    end_column(name)
   end
 
   # callbacks that can be called multiple times
@@ -31,7 +31,7 @@ class XlsxSaxParser < Nokogiri::XML::SAX::Document
     characters(string)
   end
 
-  def cell row, col
+  def cell(row, col)
     @doc[row-1][col-1]
   end
 
@@ -51,24 +51,30 @@ class XlsxSaxParser < Nokogiri::XML::SAX::Document
     @current_row = []
   end
 
-  def end_row name
+  def end_row(name)
     return unless name == 'row'
     @doc << @current_row
   end
 
-  def end_column name
+  def end_column(name)
     return unless name == 'c'
-  
+
     if @is_string
-      @current_row << @shared_strings[@buffer.to_i]
+      cell = Cell.new(@current_address, @shared_strings[@buffer.to_i])
     else
-      @current_row << @buffer
+      cell = Cell.new(@current_address, @buffer)
     end
+
+    @current_row << cell
   end
 
-  def start_column name, attrs
+  def start_column(name, attrs)
     return unless name == 'c'
     @buffer = ''
+    
+    # attrs = [["r", "B2"], ["t", "s"]]
+    @current_address = attrs.select{|a| a.first=='r'}.map(&:last).first
+    
     # flag to see if we need to get the value from a string pool
     @is_string = (attribute('t', attrs) == 's')
   end

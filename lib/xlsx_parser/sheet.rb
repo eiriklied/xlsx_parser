@@ -15,7 +15,7 @@ private
   # parse an xml file and return a 2D 
   # array of the cells in an xlsx sheet
   def parse_sheet(sheet_file, shared_strings)
-    xlsx_parser = XlsxSaxParser.new(shared_strings)
+    xlsx_parser = SheetSaxParser.new(shared_strings)
     parser = Nokogiri::XML::SAX::Parser.new(xlsx_parser)
     parser.parse(File.read(sheet_file))
     xlsx_parser.doc
