@@ -28,6 +28,7 @@ This gem aims to provide a subset of the API provided by [roo](https://github.co
     doc = Xlsx.new(@file_import.file.to_file.path) 
 
     # get the existing sheets for a document
+    # as an array of strings
     doc.sheets
 
     # set the sheet we are working on
