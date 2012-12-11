@@ -17,25 +17,28 @@ class Sheet
   end
 
   def first_row
-    return 1 unless @sheet.first
-    @sheet.first.first.row
+    @sheet.each do |row|
+      return row.first.row if row.count > 0
+    end
+    return 1
   end
 
   def last_row
-    return 1 unless @sheet.last
-    @sheet.last.first.row
+    last_row_num = 1
+    @sheet.each do |row|
+      last_row_num = row.first.row if row.count > 0
+    end
+    return last_row_num
   end
-
-
 
   def first_column
     return @first_column if @first_column
-    @first_column = @sheet.flatten.map{|cell| Sheet.letter_to_number(cell.col) }.min
+    @first_column = @sheet.flatten.map{|cell| Sheet.letter_to_number(cell.col) }.min || 1
   end
 
   def last_column
     return @last_column if @last_column
-    @last_column = @sheet.flatten.map{|cell| Sheet.letter_to_number(cell.col) }.max
+    @last_column = @sheet.flatten.map{|cell| Sheet.letter_to_number(cell.col) }.max || 1
   end
 
 private

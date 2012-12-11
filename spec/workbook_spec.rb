@@ -61,7 +61,7 @@ describe Workbook do
   end
 
   context '*_row and *_column methods' do
-    it 'shold resond to *_row methods' do
+    it 'should respond to *_row methods' do
       @workbook.first_row.should == 1
       @workbook.last_row.should == 4
     end
@@ -69,6 +69,15 @@ describe Workbook do
     it 'should respond to *_column methods' do
       @workbook.first_column.should == 1
       @workbook.last_column.should == 3
+    end
+  end
+
+  context 'cell' do
+    it 'should proxy cell calls to sheet' do
+      @workbook.cell(1, 'A').should eq('Cell 1 A')
+
+      @workbook.default_sheet = 2
+      @workbook.cell(2, 'B').should eq('Sheet 2, cell 2 B')
     end
   end
 

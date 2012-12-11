@@ -60,6 +60,10 @@ class Workbook
     default_sheet.last_column
   end
 
+  def cell(row, col)
+    default_sheet.cell(row, col)
+  end
+
 private
   # reads the file representing the entire workbook
   # this is just a small file containing the sheet names
