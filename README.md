@@ -6,6 +6,11 @@ xlsx documents are actually just a zip file containing some xml files. The parse
 
 This parser reads the document into a simple datastructure in memory using a SAX parser, so the memory usage is quite modest.
 
+## TODO
+
+- be sure to parse dates correctly
+
+
 ## Installation
 
 Add this line to your application's Gemfile:

@@ -24,4 +24,40 @@ describe Workbook do
       @sheet.name.should == 'Sheet number one'
     end
   end
+
+  context 'default_sheet' do
+    it 'should default to first sheet if no default sheet has been set' do
+      @workbook.default_sheet.name.should eq('Sheet number one')
+    end
+
+    it 'should be able to set default sheet sending in a sheet' do
+      @workbook.default_sheet = @workbook.sheet(@workbook.sheets.last)
+      @workbook.default_sheet.name.should eq('Number two')
+    end
+
+    it 'should be able to set default sheet sending in just sheet name' do
+      @workbook.default_sheet = 'Number two'
+      @workbook.default_sheet.name.should eq('Number two')
+    end
+
+    it 'should be able to set default sheet sending in an integer' do
+      @workbook.default_sheet = 2
+      @workbook.default_sheet.name.should eq('Number two')
+      @workbook.default_sheet = 1
+      @workbook.default_sheet.name.should eq('Sheet number one')
+    end
+
+    it 'should raise an error if trying to default to a sheet name that does not exist' do
+      expect { @workbook.default_sheet = 'bogus' }.to raise_error(Workbook::SheetNotFoundException)
+    end
+
+    it 'should raise an error if trying to default to a sheet number that does not exist' do
+      expect { @workbook.default_sheet = 123 }.to raise_error(Workbook::SheetNotFoundException)
+    end
+
+    it 'should raise an error if a bogus param was sent in' do
+      expect { @workbook.default_sheet = 0.3 }.to raise_error(TypeError)
+    end
+
+  end 
 end

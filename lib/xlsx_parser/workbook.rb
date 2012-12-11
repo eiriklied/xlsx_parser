@@ -26,6 +26,24 @@ class Workbook
     @sheets[sheet_name]
   end
 
+  def default_sheet
+    return @default_sheet if @default_sheet
+    
+    @sheets[sheets.first]
+  end
+
+  def default_sheet=(new_default)
+    if new_default.is_a?(Sheet)
+      @default_sheet = new_default
+    elsif new_default.is_a?(String)
+      @default_sheet = sheet(new_default)
+    elsif new_default.is_a?(Integer)
+      @default_sheet = sheet(sheets[new_default-1])
+    else
+      raise TypeError.new('what sheet are you trying to select?')
+    end
+  end
+
 private
   # reads the file representing the entire workbook
   # this is just a small file containing the sheet names
