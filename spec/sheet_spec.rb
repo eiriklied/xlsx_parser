@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Sheet do
+describe XlsxParser::Sheet do
 
   before do
     @shared_strings = ['Cell 1 A', 'Cell 2 B', 'Cell 2 C', 'Dato']
-    @sheet = Sheet.new('test', 'data/sheet1.xml', @shared_strings)
+    @sheet = XlsxParser::Sheet.new('test', 'data/sheet1.xml', @shared_strings)
   end
 
   it 'should answer to cell calls for existing cells' do

@@ -1,6 +1,5 @@
-# all files from xlsx_parser dir
-Dir["./lib/xlsx_parser/*.rb"].each {|file| require file }
-
-module XlsxParser
-  
-end
+require 'xlsx_parser/cell'
+require 'xlsx_parser/sheet'
+require 'xlsx_parser/sheet_sax_parser'
+require 'xlsx_parser/workbook'
+require 'xlsx_parser/xlsx'

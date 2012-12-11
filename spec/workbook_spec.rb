@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Workbook do
+describe XlsxParser::Workbook do
   before :each do
-    @workbook = Workbook.new('data/regular_workbook.xlsx')
+    @workbook = XlsxParser::Workbook.new('data/regular_workbook.xlsx')
   end
 
   context 'sheets' do
@@ -13,14 +13,14 @@ describe Workbook do
     it 'should throw an error if trying to get a sheet that does not exist' do
       expect {
         @workbook.sheet('not a real sheet name')
-        }.to raise_error(Workbook::SheetNotFoundException)
+        }.to raise_error(XlsxParser::Workbook::SheetNotFoundException)
     end
   end
 
   context 'single sheet' do
     it 'should return a sheet by its name' do
       @sheet = @workbook.sheet('Sheet number one')
-      @sheet.should be_an_instance_of(Sheet)
+      @sheet.should be_an_instance_of(XlsxParser::Sheet)
       @sheet.name.should == 'Sheet number one'
     end
   end
@@ -48,11 +48,11 @@ describe Workbook do
     end
 
     it 'should raise an error if trying to default to a sheet name that does not exist' do
-      expect { @workbook.default_sheet = 'bogus' }.to raise_error(Workbook::SheetNotFoundException)
+      expect { @workbook.default_sheet = 'bogus' }.to raise_error(XlsxParser::Workbook::SheetNotFoundException)
     end
 
     it 'should raise an error if trying to default to a sheet number that does not exist' do
-      expect { @workbook.default_sheet = 123 }.to raise_error(Workbook::SheetNotFoundException)
+      expect { @workbook.default_sheet = 123 }.to raise_error(XlsxParser::Workbook::SheetNotFoundException)
     end
 
     it 'should raise an error if a bogus param was sent in' do
