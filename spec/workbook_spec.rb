@@ -58,6 +58,20 @@ describe Workbook do
     it 'should raise an error if a bogus param was sent in' do
       expect { @workbook.default_sheet = 0.3 }.to raise_error(TypeError)
     end
+  end
 
-  end 
+  context '*_row and *_column methods' do
+    it 'shold resond to *_row methods' do
+      @workbook.first_row.should == 1
+      @workbook.last_row.should == 4
+    end
+  
+    it 'should respond to *_column methods' do
+      @workbook.first_column.should == 1
+      @workbook.last_column.should == 3
+    end
+  end
+
+  
+  
 end

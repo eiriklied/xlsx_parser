@@ -44,6 +44,22 @@ class Workbook
     end
   end
 
+  def first_row
+    default_sheet.first_row
+  end
+
+  def last_row
+    default_sheet.last_row
+  end
+
+  def first_column
+    default_sheet.first_column
+  end
+
+  def last_column
+    default_sheet.last_column
+  end
+
 private
   # reads the file representing the entire workbook
   # this is just a small file containing the sheet names

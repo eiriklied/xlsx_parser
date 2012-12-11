@@ -16,6 +16,28 @@ class Sheet
     selected_cell.content
   end
 
+  def first_row
+    return 1 unless @sheet.first
+    @sheet.first.first.row
+  end
+
+  def last_row
+    return 1 unless @sheet.last
+    @sheet.last.first.row
+  end
+
+
+
+  def first_column
+    return @first_column if @first_column
+    @first_column = @sheet.flatten.map{|cell| Sheet.letter_to_number(cell.col) }.min
+  end
+
+  def last_column
+    return @last_column if @last_column
+    @last_column = @sheet.flatten.map{|cell| Sheet.letter_to_number(cell.col) }.max
+  end
+
 private
 
 
