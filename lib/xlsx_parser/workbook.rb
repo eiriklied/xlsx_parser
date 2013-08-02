@@ -5,6 +5,8 @@ module XlsxParser
     class SheetNotFoundException < Exception ; end
 
     def initialize(filename)
+      puts "we are goinf to extract #{filename}"
+      puts "does it exist?: #{File.exist?(filename)}"
       @tmpdir = Dir.mktmpdir
       extract_zip_content(filename)
       read_workbook
@@ -120,11 +122,13 @@ module XlsxParser
           #entry.extract
           if entry.to_s.end_with?('workbook.xml')
             open(@tmpdir+'/workbook.xml','wb') {|f|
+              puts f
               f << zip.read(entry)
             }
           end
           if entry.to_s.end_with?('sharedStrings.xml')
             open(@tmpdir+'/sharedStrings.xml','wb') {|f|
+              puts f
               f << zip.read(entry)
             }
           end
