@@ -112,6 +112,8 @@ module XlsxParser
 
     def process_zipfile(zipfilename, zip, path='')
       @sheet_files = []
+      puts "open zipfile: #{zipfilename}"
+      puts "tmpdir: #{@tmpdir}"
       Zip::ZipFile.open(zipfilename) {|zf|
         zf.entries.each {|entry|
           #entry.extract
@@ -132,10 +134,13 @@ module XlsxParser
           end 
           if entry.to_s =~ /sheet([0-9]+).xml$/
             nr = $1
-            open(@tmpdir+'/'+@file_nr.to_s+"sheet#{nr}.xml",'wb') {|f|
+            sheet_filename = @tmpdir+'/'+@file_nr.to_s+"sheet#{nr}.xml"
+            puts "sheet_filename to read: #{sheet_filename}"
+            open(sheet_filename,'wb') {|f|
               f << zip.read(entry)
             }
             @sheet_files[nr.to_i-1] = @tmpdir+'/'+@file_nr.to_s+"sheet#{nr}.xml"
+            p @sheet_files
           end
         }
       }
