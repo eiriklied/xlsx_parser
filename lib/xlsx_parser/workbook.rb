@@ -1,14 +1,14 @@
 require 'tmpdir'
+require 'tempfile'
 
 module XlsxParser
   class Workbook
     class SheetNotFoundException < Exception ; end
 
     def initialize(filename)
-      puts "we are goinf to extract #{filename}"
-      puts "does it exist?: #{File.exist?(filename)}"
       @tmpdir = Dir.mktmpdir
-      extract_zip_content(filename)
+      @tmp_file_name = copy_file_to_tmp_dir(filename)
+      extract_zip_content(@tmp_file_name)
       read_workbook
       parse_shared_strings
       @sheets = load_sheets
@@ -68,6 +68,11 @@ module XlsxParser
     end
 
   private
+    def copy_file_to_tmp_dir(src_path)
+      FileUtils.cp(src_path, @tmpdir)
+      File.join(@tmpdir, File.basename(src_path))
+    end
+
     # reads the file representing the entire workbook
     # this is just a small file containing the sheet names
     def read_workbook
