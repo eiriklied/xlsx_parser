@@ -68,6 +68,10 @@ module XlsxParser
     end
 
   private
+
+    # when working with Tempfiles on heroku, they tend to get GC'ed so fast
+    # that we dont get to unzip the file. If we copy the whole file to 
+    # our own tmp dir everything seems to work fine
     def copy_file_to_tmp_dir(src_path)
       FileUtils.cp(src_path, @tmpdir)
       File.join(@tmpdir, File.basename(src_path))
