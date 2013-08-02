@@ -116,6 +116,7 @@ module XlsxParser
       puts "tmpdir: #{@tmpdir}"
       Zip::ZipFile.open(zipfilename) {|zf|
         zf.entries.each {|entry|
+          puts "read entry: #{entry}"
           #entry.extract
           if entry.to_s.end_with?('workbook.xml')
             open(@tmpdir+'/workbook.xml','wb') {|f|
