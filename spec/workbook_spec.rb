@@ -65,7 +65,7 @@ describe XlsxParser::Workbook do
       @workbook.first_row.should == 1
       @workbook.last_row.should == 4
     end
-  
+
     it 'should respond to *_column methods' do
       @workbook.first_column.should == 1
       @workbook.last_column.should == 3
@@ -81,6 +81,15 @@ describe XlsxParser::Workbook do
     end
   end
 
-  
-  
+
+  it 'should not crash on documents with no sharedStrings.xml' do
+      @workbook = XlsxParser::Workbook.new('data/no_shared_strings.xlsx')
+
+      @workbook.cell(1, 'B').should eq('Name')
+      @workbook.cell(2, 'B').should eq('Milton Friedman')
+  end
+
+
+
+
 end

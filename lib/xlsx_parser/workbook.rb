@@ -31,7 +31,7 @@ module XlsxParser
 
     def default_sheet
       return @default_sheet if @default_sheet
-      
+
       @sheets[sheets.first]
     end
 
@@ -70,7 +70,7 @@ module XlsxParser
   private
 
     # when working with Tempfiles on heroku, they tend to get GC'ed so fast
-    # that we dont get to unzip the file. If we copy the whole file to 
+    # that we dont get to unzip the file. If we copy the whole file to
     # our own tmp dir everything seems to work fine
     def copy_file_to_tmp_dir(src_path)
       FileUtils.cp(src_path, @tmpdir)
@@ -87,12 +87,16 @@ module XlsxParser
     def parse_shared_strings
       doc = Nokogiri::XML(File.read("#{@tmpdir}/sharedStrings.xml"))
       elements = doc.xpath('//a:t', {"a" => "http://schemas.openxmlformats.org/spreadsheetml/2006/main"})
-      
+
       @shared_strings = elements.collect{|node| node.text}
       # release for gc
-      elements = nil 
+      elements = nil
       #but return something excpected :)
       @shared_strings
+
+    rescue Exception => e
+      # Excel docs don't have to contain a sharedStrings file
+      @shared_strings = []
     end
 
 
@@ -102,11 +106,11 @@ module XlsxParser
         sheet_name = sheets[i]
         ret[sheet_name] = Sheet.new(sheet_name, sheet_file, @shared_strings)
       end
-      
+
       ret
     end
 
-    # parse an xml file and return a 2D 
+    # parse an xml file and return a 2D
     # array of the cells in an xlsx sheet
     def parse_sheet(sheet_file)
       xlsx_parser = XlsxSaxParser.new(@shared_strings)
@@ -140,7 +144,7 @@ module XlsxParser
             open(@tmpdir+'/styles.xml','wb') {|f|
               f << zip.read(entry)
             }
-          end 
+          end
           if entry.to_s =~ /sheet([0-9]+).xml$/
             nr = $1
             sheet_filename = @tmpdir+'/'+@file_nr.to_s+"sheet#{nr}.xml"
