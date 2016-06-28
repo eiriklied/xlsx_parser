@@ -8,16 +8,16 @@ describe XlsxParser::Sheet do
   end
 
   it 'should answer to cell calls for existing cells' do
-    @sheet.cell(1,1).should eq('Cell 1 A')
-    @sheet.cell(1,'A').should eq('Cell 1 A')
-    
-    @sheet.cell(2, 2).should eq('Cell 2 B')
-    @sheet.cell(2, 'B').should eq('Cell 2 B')
+    expect(@sheet.cell(1,1)).to eq('Cell 1 A')
+    expect(@sheet.cell(1,'A')).to eq('Cell 1 A')
+
+    expect(@sheet.cell(2, 2)).to eq('Cell 2 B')
+    expect(@sheet.cell(2, 'B')).to eq('Cell 2 B')
   end
 
-  it 'should should return nil for non-existing cells' do
-    @sheet.cell(-1, -1).should be_nil
-    @sheet.cell(0,0).should be_nil
-    @sheet.cell(2,1).should be_nil
+  it 'should return nil for non-existing cells' do
+    expect(@sheet.cell(-1, -1)).to be_nil
+    expect(@sheet.cell(0,0)).to be_nil
+    expect(@sheet.cell(2,1)).to be_nil
   end
 end
