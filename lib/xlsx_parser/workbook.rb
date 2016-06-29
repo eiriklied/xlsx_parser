@@ -120,14 +120,14 @@ module XlsxParser
     end
 
     def extract_zip_content(zipfilename)
-      Zip::ZipFile.open(zipfilename) do |zip|
+      Zip::File.open(zipfilename) do |zip|
         process_zipfile(zipfilename,zip)
       end
     end
 
     def process_zipfile(zipfilename, zip, path='')
       @sheet_files = []
-      Zip::ZipFile.open(zipfilename) {|zf|
+      Zip::File.open(zipfilename) {|zf|
         zf.entries.each {|entry|
           #entry.extract
           if entry.to_s.end_with?('workbook.xml')

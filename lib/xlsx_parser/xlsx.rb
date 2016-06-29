@@ -1,4 +1,4 @@
-require 'zip/zipfilesystem'
+require 'zip'
 require 'nokogiri'
 
 module XlsxParser
@@ -16,6 +16,6 @@ module XlsxParser
 
 
   private
-    
+
   end
 end
