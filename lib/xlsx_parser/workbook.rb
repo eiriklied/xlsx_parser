@@ -86,13 +86,18 @@ module XlsxParser
     # read shared strings from xml file into an array of strings
     def parse_shared_strings
       doc = Nokogiri::XML(File.read("#{@tmpdir}/sharedStrings.xml"))
-      elements = doc.xpath('//a:t', {"a" => "http://schemas.openxmlformats.org/spreadsheetml/2006/main"})
+      # elements = doc.xpath('//a:t', {"a" => "http://schemas.openxmlformats.org/spreadsheetml/2006/main"})
 
-      @shared_strings = elements.collect{|node| node.text}
-      # release for gc
-      elements = nil
-      #but return something excpected :)
-      @shared_strings
+      shared_strings = []
+      doc.css('si').each do |si|
+        text_nodes = si.css('t')
+        # Text nodes can have one or more nodes regardin on
+        # being plain text or rich text nodes
+        # In any case, we just merge all the nodes contents
+        shared_strings << text_nodes.map(&:content).join('')
+      end
+      # Save to the instance variable
+      @shared_strings = shared_strings
 
     rescue Exception => e
       # Excel docs don't have to contain a sharedStrings file
