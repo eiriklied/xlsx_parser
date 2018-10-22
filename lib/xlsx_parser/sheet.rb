@@ -1,7 +1,7 @@
 module XlsxParser
   class Sheet
     attr_reader :name
-    
+
     def initialize(name, xml_file, shared_strings)
       @name = name
       @sheet = read_sheet(xml_file, shared_strings)
@@ -60,7 +60,7 @@ module XlsxParser
     # converts cell coordinate to numeric values of row,col
     def normalize(row,col)
       if row.class == String
-        if col.class == Fixnum
+        if col.class == Integer
           # ('A',1):
           # ('B', 5) -> (5, 2)
           row, col = col, row
@@ -68,7 +68,7 @@ module XlsxParser
           raise ArgumentError
         end
       end
-      if col.class == Fixnum
+      if col.class == Integer
         col = Sheet.number_to_letter(col)
       end
       return row,col

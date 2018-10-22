@@ -1,3 +1,5 @@
+require "date"
+
 module XlsxParser
   class Cell
     attr_reader :row, :col, :content
